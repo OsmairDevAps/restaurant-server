@@ -20,6 +20,7 @@ export interface ICommand {
 }
 
 export interface ICommandItem {
+  id: number;
   idtable: number;
   category: string;
   product: string;

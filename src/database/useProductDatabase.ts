@@ -1,11 +1,13 @@
-import { ICategory } from "../utils/interface";
+import { IProduct } from "../utils/interface";
 import { supabase } from "./supabase";
 
-export function useCategoryDatabase() {
+export function useProductDatabase() {
 
   async function list() {
     try {
-      const { data, error } = await supabase.from('categories').select('*')
+      const { data, error } = await supabase
+      .from('products')
+      .select('*')
       if(error) {
         console.log(error)
       }
@@ -15,10 +17,14 @@ export function useCategoryDatabase() {
     }
   }
   
-  async function create(data: Omit<ICategory, 'id'>) {
+  async function create(data: Omit<IProduct, 'id'>) {
     try {
-      const insertedRow = await supabase.from('categories').insert({
-        description: data.description,
+      const insertedRow = await supabase
+      .from('products')
+      .insert({
+        categoryid: data.categoryid,
+        name: data.name,
+        price: data.price
       })
       return { insertedRow } 
     } catch(error) {
@@ -26,12 +32,14 @@ export function useCategoryDatabase() {
     }
   }
   
-  async function update(data: ICategory) {
+  async function update(data: IProduct) {
     try {
       await supabase
-      .from('categories')
+      .from('products')
       .update({
-        description: data.description,
+        categoryid: data.categoryid,
+        name: data.name,
+        price: data.price
       })
       .eq('id', data.id)
       return
@@ -43,7 +51,7 @@ export function useCategoryDatabase() {
   async function remove(id: number) {
     try {
       await supabase
-      .from('categories')
+      .from('products')
       .delete()
       .eq('id', id)
       return
