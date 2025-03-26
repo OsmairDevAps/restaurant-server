@@ -6,7 +6,7 @@ export function useProductDatabase() {
   async function list() {
     try {
       const { data, error } = await supabase
-      .from('products')
+      .from('produtos')
       .select('*')
       if(error) {
         console.log(error)
@@ -20,7 +20,7 @@ export function useProductDatabase() {
   async function create(data: Omit<IProduct, 'id'>) {
     try {
       const insertedRow = await supabase
-      .from('products')
+      .from('produtos')
       .insert({
         categoryid: data.categoryid,
         name: data.name,
@@ -35,7 +35,7 @@ export function useProductDatabase() {
   async function update(data: IProduct) {
     try {
       await supabase
-      .from('products')
+      .from('produtos')
       .update({
         categoryid: data.categoryid,
         name: data.name,
@@ -51,7 +51,7 @@ export function useProductDatabase() {
   async function remove(id: number) {
     try {
       await supabase
-      .from('products')
+      .from('produtos')
       .delete()
       .eq('id', id)
       return

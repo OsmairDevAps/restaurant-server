@@ -5,7 +5,7 @@ export function useCommandDatabase() {
 
   async function list() {
     try {
-      const { data } = await supabase.from('command').select('*')
+      const { data } = await supabase.from('mesas').select('*')
       return data
     } catch (error) {
       throw error
@@ -14,7 +14,7 @@ export function useCommandDatabase() {
 
   async function create(data: Omit<ICommand, 'id'>) {
     try {
-      const insertedRow = await supabase.from('command').insert({
+      const insertedRow = await supabase.from('mesas').insert({
         num: data.num,
         client: data.client,
         clientdoc: data.clientdoc,
@@ -30,7 +30,7 @@ export function useCommandDatabase() {
   async function update(data: ICommand) {
     try {
       await supabase
-      .from('command')
+      .from('mesas')
       .update({
         num: data.num,
         client: data.client,
@@ -48,7 +48,7 @@ export function useCommandDatabase() {
   async function remove(id: number) {
     try {
       await supabase
-      .from('command')
+      .from('mesas')
       .delete()
       .eq('id', id)
       return

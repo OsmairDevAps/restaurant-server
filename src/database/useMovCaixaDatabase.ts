@@ -1,11 +1,11 @@
-import { ICategory } from "../utils/interface";
+import { IMovCaixa } from "../utils/interface";
 import { supabase } from "./supabase";
 
-export function useCategoryDatabase() {
+export function useMovCaixaDatabase() {
 
   async function list() {
     try {
-      const { data, error } = await supabase.from('categorias').select('*')
+      const { data, error } = await supabase.from('movimentacoescaixa').select('*')
       if(error) {
         console.log(error)
       }
@@ -15,10 +15,13 @@ export function useCategoryDatabase() {
     }
   }
   
-  async function create(data: Omit<ICategory, 'id'>) {
+  async function create(data: Omit<IMovCaixa, 'id'>) {
     try {
-      const insertedRow = await supabase.from('categorias').insert({
-        description: data.description,
+      const insertedRow = await supabase.from('movimentacoescaixa').insert({
+        caixaid: data.caixaid,
+        tipo: data.tipo,
+        descricao: data.descricao,
+        valor: data.valor,
       })
       return { insertedRow } 
     } catch(error) {
@@ -26,13 +29,16 @@ export function useCategoryDatabase() {
     }
   }
   
-  async function update(data: ICategory) {
+  async function update(data: IMovCaixa) {
     try {
       await supabase
-      .from('categorias')
+      .from('movimentacoescaixa')
       .update({
-        description: data.description,
-      })
+        caixaid: data.caixaid,
+        tipo: data.tipo,
+        descricao: data.descricao,
+        valor: data.valor,
+    })
       .eq('id', data.id)
       return
     } catch(error) {
@@ -43,7 +49,7 @@ export function useCategoryDatabase() {
   async function remove(id: number) {
     try {
       await supabase
-      .from('categorias')
+      .from('movimentacoescaixa')
       .delete()
       .eq('id', id)
       return

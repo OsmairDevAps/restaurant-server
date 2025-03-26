@@ -6,7 +6,7 @@ export function useCommandItemDatabase() {
   async function list() {
     try {
       const { data, error } = await supabase
-      .from('commanditems')
+      .from('itensmesa')
       .select('*')
       if(error) {
         console.log(error)
@@ -20,7 +20,7 @@ export function useCommandItemDatabase() {
   async function create(data: Omit<ICommandItem, 'id'>) {
     try {
       const insertedRow = await supabase
-      .from('commanditems')
+      .from('itensmesa')
       .insert({
         idtable: data.idtable,
         category: data.category,
@@ -37,7 +37,7 @@ export function useCommandItemDatabase() {
   async function update(data: ICommandItem) {
     try {
       await supabase
-      .from('commanditems')
+      .from('itensmesa')
       .update({
         idtable: data.idtable,
         category: data.category,
@@ -55,7 +55,7 @@ export function useCommandItemDatabase() {
   async function remove(id: number) {
     try {
       await supabase
-      .from('commanditems')
+      .from('itensmesa')
       .delete()
       .eq('id', id)
       return
