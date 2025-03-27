@@ -64,7 +64,7 @@ export function useUserDatabase() {
     try {
       const { data, error } = await supabase
       .from("usuarios")
-      .select("user, password")
+      .select("*")
       .eq("user", user)
       .single();
 

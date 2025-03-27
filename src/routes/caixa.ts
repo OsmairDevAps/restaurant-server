@@ -24,16 +24,63 @@ caixaRoutes.post("/", async (req: Request, res: Response) => {
     saldofinal: z.number(),
   })
   const body = caixaSchema.parse(req.body)
-  const idcaixa = await caixaDatabase.create({
-    usuario: body.usuario,
-    situacao: body.situacao,
-    dataabertura: new Date(body.dataabertura),
-    datafechamento: new Date(body.datafechamento),
-    saldoinicial: body.saldoinicial,
-    saldofinal: body.saldofinal,
-  })
-  res.json(idcaixa)
+  try {
+    const idcaixa = await caixaDatabase.create({
+      usuario: body.usuario,
+      situacao: body.situacao,
+      dataabertura: new Date(body.dataabertura),
+      datafechamento: new Date(body.datafechamento),
+      saldoinicial: body.saldoinicial,
+      saldofinal: body.saldofinal,
+    })
+    res.json(idcaixa)
+  } catch (error) {
+    res.json(error)    
+  }
 });
+
+caixaRoutes.post('/abrecaixa', async (req: Request, res: Response) => {
+  const caixaSchema = z.object({
+    usuario: z.string(),
+    saldoinicial: z.string(),
+  })
+  try {
+    const body = caixaSchema.parse(req.body)
+    const response = await caixaDatabase.abreCaixa({
+      usuario: body.usuario,
+      saldoinicial: Number(body.saldoinicial),
+    })
+    res.status(200).send(response)
+  } catch (error) {
+    res.send(error)
+  }
+}) 
+
+caixaRoutes.post('/fechacaixa', async (req: Request, res: Response) => {
+  try {
+    const response = await caixaDatabase.fechaCaixa()
+    res.status(200).send(response)
+  } catch (error) {
+    res.send(error)
+  }
+})
+
+caixaRoutes.post('/reforcocaixa', async (req: Request, res: Response) => {
+  const caixaSchema = z.object({
+    descricao: z.string(),
+    valor: z.string(),
+  })
+  try {
+    const body = caixaSchema.parse(req.body)
+    const response = await caixaDatabase.reforcoCaixa({
+      descricao: body.descricao,
+      valor: Number(body.valor),
+    })
+    res.status(200).send(response)
+  } catch (error) {
+    res.send(error)
+  }
+})
 
 caixaRoutes.put("/", async (req: Request, res: Response) => {
   const caixaSchema = z.object({

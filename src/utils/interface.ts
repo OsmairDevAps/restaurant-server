@@ -6,6 +6,16 @@ export interface IUser {
   kind: string;
 }
 
+export interface IAbreCaixa {
+  usuario: string;
+  saldoinicial: number;
+}
+
+export interface IReforcoCaixa {
+  descricao: string;
+  valor: number;
+}
+
 export interface ICaixa {
   id: number;
   usuario: string;
